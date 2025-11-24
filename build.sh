@@ -1,2 +1,3 @@
-#!/bin/bash 
-echo "Running CI Pipeline Successfully"
+#!/bin/bash
+echo "Building Project..."
+echo "Build generated successfully at $(date)" > build-output.txt
