@@ -23,7 +23,7 @@ pipeline {
             }
         }
 
-       stage('Code Quality Scan') {
+              stage('Code Quality Scan') {
             steps {
                 script {
                     def scannerHome = tool 'sonar-scanner'
@@ -31,14 +31,13 @@ pipeline {
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
                               -Dsonar.projectKey=jenkins-sample-pipeline \
-                              -Dsonar.sources=. \
-                              -Dsonar.host.url=$SONAR_HOST_URL \
-                              -Dsonar.login=$SONAR_AUTH_TOKEN
+                              -Dsonar.sources=.
                         """
                     }
                 }
             }
         }
+
     }
 
     post {
