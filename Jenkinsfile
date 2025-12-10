@@ -23,18 +23,17 @@ pipeline {
             }
         }
 
-        stage('Code Quality Scan') {
+       stage('Code Quality Scan') {
             steps {
                 script {
-                    // "sonar-scanner" MUST match the name you configured under
-                    // Manage Jenkins -> Tools -> SonarQube Scanner installations
                     def scannerHome = tool 'sonar-scanner'
                     withSonarQubeEnv('LocalSonar') {
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
                               -Dsonar.projectKey=jenkins-sample-pipeline \
                               -Dsonar.sources=. \
-                              -Dsonar.host.url=http://192.168.0.24:9000
+                              -Dsonar.host.url=$SONAR_HOST_URL \
+                              -Dsonar.login=$SONAR_AUTH_TOKEN
                         """
                     }
                 }
