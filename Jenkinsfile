@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        sonarQubeScanner 'sonar-scanner'
-    }
-
     stages {
 
         stage('Checkout') {
@@ -29,13 +25,18 @@ pipeline {
 
         stage('Code Quality Scan') {
             steps {
-                withSonarQubeEnv('LocalSonar') {
-                    sh '''
-                        sonar-scanner \
-                        -Dsonar.projectKey=jenkins-sample-pipeline \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://192.168.0.24:9000
-                    '''
+                script {
+                    // "sonar-scanner" MUST match the name you configured under
+                    // Manage Jenkins -> Tools -> SonarQube Scanner installations
+                    def scannerHome = tool 'sonar-scanner'
+                    withSonarQubeEnv('LocalSonar') {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                              -Dsonar.projectKey=jenkins-sample-pipeline \
+                              -Dsonar.sources=. \
+                              -Dsonar.host.url=http://192.168.0.24:9000
+                        """
+                    }
                 }
             }
         }
